@@ -215,7 +215,6 @@ public class ImGuiController : IDisposable
         }
 
         SetPerFrameImGuiData(deltaSeconds);
-        UpdateImGuiInput(wnd);
 
         _frameBegun = true;
         ImGui.NewFrame();
@@ -234,66 +233,6 @@ public class ImGuiController : IDisposable
         imGuiIO.DeltaTime = deltaSeconds; // DeltaTime is in seconds.
     }
 
-    readonly List<char> PressedChars = new List<char>();
-
-    private void UpdateImGuiInput(GameWindow wnd)
-    {
-        // Yah now what, let's try something different
-
-
-        //MouseDevice MouseState = wnd.Mouse;
-        //KeyboardDevice KeyboardState = wnd.Keyboard;
-
-        //io.MouseDown[0] = MouseState[OpenTK.Input.MouseButton.Left];
-        //io.MouseDown[1] = MouseState[OpenTK.Input.MouseButton.Right];
-        //io.MouseDown[2] = MouseState[OpenTK.Input.MouseButton.Middle];
-        //io.MouseDown[3] = MouseState[OpenTK.Input.MouseButton.Button4];
-        //io.MouseDown[4] = MouseState[OpenTK.Input.MouseButton.Button5];
-
-        //var screenPoint = new Vector2((int)MouseState.X, (int)MouseState.Y);
-        //var point = screenPoint;//wnd.PointToClient(screenPoint);
-        //io.MousePos = new System.Numerics.Vector2(point.X, point.Y);
-
-        ////io.AddKeyEvent()
-        ////io.KeyAlt = false;
-
-        //// Don't want to migrate this now
-        //foreach (Key key in Enum.GetValues(typeof(OpenTK.Input.Key)))
-        //{
-        //    if (key == Key.Unknown)
-        //    {
-        //        continue;
-        //    }
-        //    io.AddKeyEvent(TranslateKey(key), KeyboardState[key]);
-        //}
-
-        
-
-        // KeyboardState.GetState().
-        
-        //foreach (var c in PressedChars)
-        //{
-        //    io.AddInputCharacter(c);
-        //}
-        //PressedChars.Clear();
-
-        //io.KeyCtrl = KeyboardState.IsKeyDown(Keys.LeftControl) || KeyboardState.IsKeyDown(Keys.RightControl);
-        //io.KeyAlt = KeyboardState.IsKeyDown(Keys.LeftAlt) || KeyboardState.IsKeyDown(Keys.RightAlt);
-        //io.KeyShift = KeyboardState.IsKeyDown(Keys.LeftShift) || KeyboardState.IsKeyDown(Keys.RightShift);
-        //io.KeySuper = KeyboardState.IsKeyDown(Keys.LeftSuper) || KeyboardState.IsKeyDown(Keys.RightSuper);
-    }
-
-    internal void PressChar(char keyChar)
-    {
-        PressedChars.Add(keyChar);
-    }
-
-    internal void MouseScroll(Vector2 offset)
-    {
-
-        imGuiIO.MouseWheel = offset.Y;
-        imGuiIO.MouseWheelH = offset.X;
-    }
 
     private void RenderImDrawData(ImDrawDataPtr draw_data)
     {
@@ -562,13 +501,4 @@ public class ImGuiController : IDisposable
             Debug.Print($"{title} ({i++}): {error}");
         }
     }
-
-
-    internal void KeyDown(KeyboardKeyEventArgs e)
-    {
-        // TODO
-
-        
-    }
-
 }
