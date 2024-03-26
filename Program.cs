@@ -4,7 +4,8 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            MyOpenTKApplication app = new MyOpenTKApplication();
+            app.Run();
         }
     }
 }
