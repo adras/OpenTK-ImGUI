@@ -2,7 +2,7 @@
 Sample/Testing project for use of OpenTK with ImGUI
 
 Alright, after spending hours fighting with the AI about which namespaces and which overloads to use in OpenTK
-let alone integrating ImGUI luckily @https://github.com/NogginBops came to help with https://github.com/NogginBops/ImGui.NET_OpenTK_Sample
+let alone integrating ImGUI luckily @NogginBops came to help with https://github.com/NogginBops/ImGui.NET_OpenTK_Sample
 
 Since I'm going to need this probably more often, this project is supposed as a quickstart whenever you want to play around with OpenTK and ImGUI.
 
