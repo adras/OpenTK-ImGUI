@@ -37,7 +37,7 @@ namespace Imgui_Test
             gameWindow.MouseMove += GameWindow_MouseMove;
             gameWindow.MouseWheel += GameWindow_MouseWheel;
 
-            //gameWindow.KeyPress += GameWindow_KeyPress;
+            gameWindow.TextInput += GameWindow_TextInput;
             gameWindow.KeyDown += GameWindow_KeyDown;
             gameWindow.KeyUp += GameWindow_KeyUp;
         }
@@ -53,9 +53,14 @@ namespace Imgui_Test
             gameWindow.MouseMove -= GameWindow_MouseMove;
             gameWindow.MouseWheel -= GameWindow_MouseWheel;
 
-            //gameWindow.KeyPress -= GameWindow_KeyPress;
+            gameWindow.TextInput -= GameWindow_TextInput;
             gameWindow.KeyDown -= GameWindow_KeyDown;
             gameWindow.KeyUp -= GameWindow_KeyUp;
+        }
+
+        private void GameWindow_TextInput(TextInputEventArgs obj)
+        {
+            imGuiIO.AddInputCharacter((char)obj.Unicode);
         }
 
         private void GameWindow_KeyDown(KeyboardKeyEventArgs e)
@@ -70,10 +75,6 @@ namespace Imgui_Test
             imGuiIO.AddKeyEvent(key, false);
         }
 
-        private void GameWindow_KeyPress(KeyboardKeyEventArgs e)
-        {
-            imGuiIO.AddInputCharacter((uint)e.ScanCode);
-        }
 
         private void GameWindow_MouseWheel(MouseWheelEventArgs e)
         {
