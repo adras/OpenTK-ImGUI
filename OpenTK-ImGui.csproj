@@ -8,17 +8,8 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="TODO.md" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="TODO.md" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ImGui.NET" Version="1.90.1.1" />
-    <PackageReference Include="ImGuiNet.OpenTK" Version="0.1.6.123-beta" />
-    <PackageReference Include="OpenTK" Version="5.0.0-pre.10" />
+    <PackageReference Include="OpenTK" Version="4.8.2" />
   </ItemGroup>
 </Project>

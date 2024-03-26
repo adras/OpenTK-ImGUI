@@ -6,7 +6,7 @@ let alone integrating ImGUI luckily @NogginBops came to help with https://github
 
 Since I'm going to need this probably more often, this project is supposed as a quickstart whenever you want to play around with OpenTK and ImGUI.
 
-As of now this project uses .NET 8 with OpenTK 5.0.0-pre.10
+As of now this project uses .NET 8 with OpenTK 4.8.2
 
 ## General project requirements
 This project was setup in a certain way:

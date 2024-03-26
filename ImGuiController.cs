@@ -5,6 +5,8 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK;
 using OpenTK.Input;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Mathematics;
 
 
 public class ImGuiController : IDisposable
@@ -336,7 +338,7 @@ public class ImGuiController : IDisposable
         GL.Enable(EnableCap.Blend);
         GL.Enable(EnableCap.ScissorTest);
         GL.BlendEquation(BlendEquationMode.FuncAdd);
-        GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+        GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         GL.Disable(EnableCap.CullFace);
         GL.Disable(EnableCap.DepthTest);
 

@@ -1,6 +1,9 @@
 ﻿using ImGuiNET;
 using OpenTK;
 using OpenTK.Input;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,10 +37,11 @@ namespace Imgui_Test
             gameWindow.MouseMove += GameWindow_MouseMove;
             gameWindow.MouseWheel += GameWindow_MouseWheel;
 
-            gameWindow.KeyPress += GameWindow_KeyPress;
+            //gameWindow.KeyPress += GameWindow_KeyPress;
             gameWindow.KeyDown += GameWindow_KeyDown;
             gameWindow.KeyUp += GameWindow_KeyUp;
         }
+
 
         /// <summary>
         /// Unregisters the events setup by <see cref="Connect"/>
@@ -49,177 +53,157 @@ namespace Imgui_Test
             gameWindow.MouseMove -= GameWindow_MouseMove;
             gameWindow.MouseWheel -= GameWindow_MouseWheel;
 
-            gameWindow.KeyPress -= GameWindow_KeyPress;
+            //gameWindow.KeyPress -= GameWindow_KeyPress;
             gameWindow.KeyDown -= GameWindow_KeyDown;
             gameWindow.KeyUp -= GameWindow_KeyUp;
         }
 
-        private void GameWindow_KeyDown(object? sender, OpenTK.Input.KeyboardKeyEventArgs e)
+        private void GameWindow_KeyDown(KeyboardKeyEventArgs e)
         {
             ImGuiKey key = TranslateKey(e.Key);
             imGuiIO.AddKeyEvent(key, true);
         }
 
-        private void GameWindow_KeyUp(object? sender, OpenTK.Input.KeyboardKeyEventArgs e)
+        private void GameWindow_KeyUp(KeyboardKeyEventArgs e)
         {
             ImGuiKey key = TranslateKey(e.Key);
             imGuiIO.AddKeyEvent(key, false);
         }
 
-        private void GameWindow_KeyPress(object? sender, KeyPressEventArgs e)
+        private void GameWindow_KeyPress(KeyboardKeyEventArgs e)
         {
-            imGuiIO.AddInputCharacter(e.KeyChar);
+            imGuiIO.AddInputCharacter((uint)e.ScanCode);
         }
 
-        private void GameWindow_MouseWheel(object? sender, OpenTK.Input.MouseWheelEventArgs e)
+        private void GameWindow_MouseWheel(MouseWheelEventArgs e)
         {
-            imGuiIO.MouseWheel = e.Delta;
+            imGuiIO.MouseWheel = e.OffsetX;
+            imGuiIO.MouseWheel = e.OffsetY;
         }
 
-        private void GameWindow_MouseMove(object? sender, OpenTK.Input.MouseMoveEventArgs e)
+        private void GameWindow_MouseMove(MouseMoveEventArgs e)
         {
             imGuiIO.MousePos = new System.Numerics.Vector2(e.X, e.Y);
         }
 
-        private void GameWindow_MouseUp(object? sender, OpenTK.Input.MouseButtonEventArgs e)
+        private void GameWindow_MouseUp(MouseButtonEventArgs e)
         {
             switch (e.Button)
             {
-                case OpenTK.Input.MouseButton.Left:
+                case MouseButton.Left:
                     imGuiIO.MouseDown[0] = false;
                     break;
-                case OpenTK.Input.MouseButton.Middle:
+                case MouseButton.Middle:
                     imGuiIO.MouseDown[1] = false;
                     break;
-                case OpenTK.Input.MouseButton.Right:
+                case MouseButton.Right:
                     imGuiIO.MouseDown[2] = false;
                     break;
                 // TODO:
-                case OpenTK.Input.MouseButton.Button1:
+                case MouseButton.Button4:
                     break;
-                case OpenTK.Input.MouseButton.Button2:
+                case MouseButton.Button5:
                     break;
-                case OpenTK.Input.MouseButton.Button3:
+                case MouseButton.Button6:
                     break;
-                case OpenTK.Input.MouseButton.Button4:
+                case MouseButton.Button7:
                     break;
-                case OpenTK.Input.MouseButton.Button5:
-                    break;
-                case OpenTK.Input.MouseButton.Button6:
-                    break;
-                case OpenTK.Input.MouseButton.Button7:
-                    break;
-                case OpenTK.Input.MouseButton.Button8:
-                    break;
-                case OpenTK.Input.MouseButton.Button9:
-                    break;
-                case OpenTK.Input.MouseButton.LastButton:
+                case MouseButton.Button8:
                     break;
             }
 
         }
 
-        private void GameWindow_MouseDown(object? sender, OpenTK.Input.MouseButtonEventArgs e)
+        private void GameWindow_MouseDown(MouseButtonEventArgs e)
         {
             switch (e.Button)
             {
-                case OpenTK.Input.MouseButton.Left:
+                case MouseButton.Left:
                     imGuiIO.MouseDown[0] = true;
                     break;
-                case OpenTK.Input.MouseButton.Middle:
+                case MouseButton.Middle:
                     imGuiIO.MouseDown[1] = true;
                     break;
-                case OpenTK.Input.MouseButton.Right:
+                case MouseButton.Right:
                     imGuiIO.MouseDown[2] = true;
                     break;
                 // TODO:
-                case OpenTK.Input.MouseButton.Button1:
+                case MouseButton.Button4:
                     break;
-                case OpenTK.Input.MouseButton.Button2:
+                case MouseButton.Button5:
                     break;
-                case OpenTK.Input.MouseButton.Button3:
+                case MouseButton.Button6:
                     break;
-                case OpenTK.Input.MouseButton.Button4:
+                case MouseButton.Button7:
                     break;
-                case OpenTK.Input.MouseButton.Button5:
-                    break;
-                case OpenTK.Input.MouseButton.Button6:
-                    break;
-                case OpenTK.Input.MouseButton.Button7:
-                    break;
-                case OpenTK.Input.MouseButton.Button8:
-                    break;
-                case OpenTK.Input.MouseButton.Button9:
-                    break;
-                case OpenTK.Input.MouseButton.LastButton:
+                case MouseButton.Button8:
                     break;
             }
         }
 
-        public static ImGuiKey TranslateKey(OpenTK.Input.Key key)
+        public static ImGuiKey TranslateKey(Keys key)
         {
-            if (key >= Key.Number0 && key <= Key.Number9)
-                return key - Key.Number0 + ImGuiKey._0;
+            if (key >= Keys.D0 && key <= Keys.D9)
+                return key - Keys.D0 + ImGuiKey._0;
 
-            if (key >= Key.A && key <= Key.Z)
-                return key - Key.A + ImGuiKey.A;
+            if (key >= Keys.A && key <= Keys.Z)
+                return key - Keys.A + ImGuiKey.A;
 
-            if (key >= Key.Keypad0 && key <= Key.Keypad9)
-                return key - Key.Keypad0 + ImGuiKey.Keypad0;
+            if (key >= Keys.KeyPad0 && key <= Keys.KeyPad9)
+                return key - Keys.KeyPad0 + ImGuiKey.Keypad0;
 
-            if (key >= Key.F1 && key <= Key.F24)
-                return key - Key.F1 + ImGuiKey.F24;
+            if (key >= Keys.F1 && key <= Keys.F24)
+                return key - Keys.F1 + ImGuiKey.F24;
 
             switch (key)
             {
-                case Key.Tab: return ImGuiKey.Tab;
-                case Key.Left: return ImGuiKey.LeftArrow;
-                case Key.Right: return ImGuiKey.RightArrow;
-                case Key.Up: return ImGuiKey.UpArrow;
-                case Key.Down: return ImGuiKey.DownArrow;
-                case Key.PageUp: return ImGuiKey.PageUp;
-                case Key.PageDown: return ImGuiKey.PageDown;
-                case Key.Home: return ImGuiKey.Home;
-                case Key.End: return ImGuiKey.End;
-                case Key.Insert: return ImGuiKey.Insert;
-                case Key.Delete: return ImGuiKey.Delete;
-                case Key.BackSpace: return ImGuiKey.Backspace;
-                case Key.Space: return ImGuiKey.Space;
-                case Key.Enter: return ImGuiKey.Enter;
-                case Key.Escape: return ImGuiKey.Escape;
-                //case Key.Apostrophe: return ImGuiKey.Apostrophe;
-                case Key.Comma: return ImGuiKey.Comma;
-                case Key.Minus: return ImGuiKey.Minus;
-                case Key.Period: return ImGuiKey.Period;
-                case Key.Slash: return ImGuiKey.Slash;
-                case Key.Semicolon: return ImGuiKey.Semicolon;
-                //case Key.Equal: return ImGuiKey.Equal;
-                case Key.BracketLeft: return ImGuiKey.LeftBracket;
-                case Key.BackSlash: return ImGuiKey.Backslash;
-                case Key.BracketRight: return ImGuiKey.RightBracket;
-                
-                case Key.Grave: return ImGuiKey.GraveAccent;
-                case Key.CapsLock: return ImGuiKey.CapsLock;
-                case Key.ScrollLock: return ImGuiKey.ScrollLock;
-                case Key.NumLock: return ImGuiKey.NumLock;
-                case Key.PrintScreen: return ImGuiKey.PrintScreen;
-                case Key.Pause: return ImGuiKey.Pause;
-                case Key.KeypadDecimal: return ImGuiKey.KeypadDecimal;
-                case Key.KeypadDivide: return ImGuiKey.KeypadDivide;
-                case Key.KeypadMultiply: return ImGuiKey.KeypadMultiply;
-                case Key.KeypadSubtract: return ImGuiKey.KeypadSubtract;
-                case Key.KeypadAdd: return ImGuiKey.KeypadAdd;
-                case Key.KeypadEnter: return ImGuiKey.KeypadEnter;
-                //case Key.Keypad: return ImGuiKey.KeypadEqual;
-                case Key.ShiftLeft: return ImGuiKey.LeftShift;
-                case Key.ControlLeft: return ImGuiKey.LeftCtrl;
-                case Key.AltLeft: return ImGuiKey.LeftAlt;
-                //case Key.LeftSuper: return ImGuiKey.LeftSuper;
-                case Key.ShiftRight: return ImGuiKey.RightShift;
-                case Key.ControlRight: return ImGuiKey.RightCtrl;
-                case Key.AltRight: return ImGuiKey.RightAlt;
-                //case Key.RightSuper: return ImGuiKey.RightSuper;
-                case Key.Menu: return ImGuiKey.Menu;
+                case Keys.Tab: return ImGuiKey.Tab;
+                case Keys.Left: return ImGuiKey.LeftArrow;
+                case Keys.Right: return ImGuiKey.RightArrow;
+                case Keys.Up: return ImGuiKey.UpArrow;
+                case Keys.Down: return ImGuiKey.DownArrow;
+                case Keys.PageUp: return ImGuiKey.PageUp;
+                case Keys.PageDown: return ImGuiKey.PageDown;
+                case Keys.Home: return ImGuiKey.Home;
+                case Keys.End: return ImGuiKey.End;
+                case Keys.Insert: return ImGuiKey.Insert;
+                case Keys.Delete: return ImGuiKey.Delete;
+                case Keys.Backspace: return ImGuiKey.Backspace;
+                case Keys.Space: return ImGuiKey.Space;
+                case Keys.Enter: return ImGuiKey.Enter;
+                case Keys.Escape: return ImGuiKey.Escape;
+                case Keys.Apostrophe: return ImGuiKey.Apostrophe;
+                case Keys.Comma: return ImGuiKey.Comma;
+                case Keys.Minus: return ImGuiKey.Minus;
+                case Keys.Period: return ImGuiKey.Period;
+                case Keys.Slash: return ImGuiKey.Slash;
+                case Keys.Semicolon: return ImGuiKey.Semicolon;
+                case Keys.Equal: return ImGuiKey.Equal;
+                case Keys.LeftBracket: return ImGuiKey.LeftBracket;
+                case Keys.Backslash: return ImGuiKey.Backslash;
+                case Keys.RightBracket: return ImGuiKey.RightBracket;
+                case Keys.GraveAccent: return ImGuiKey.GraveAccent;
+                case Keys.CapsLock: return ImGuiKey.CapsLock;
+                case Keys.ScrollLock: return ImGuiKey.ScrollLock;
+                case Keys.NumLock: return ImGuiKey.NumLock;
+                case Keys.PrintScreen: return ImGuiKey.PrintScreen;
+                case Keys.Pause: return ImGuiKey.Pause;
+                case Keys.KeyPadDecimal: return ImGuiKey.KeypadDecimal;
+                case Keys.KeyPadDivide: return ImGuiKey.KeypadDivide;
+                case Keys.KeyPadMultiply: return ImGuiKey.KeypadMultiply;
+                case Keys.KeyPadSubtract: return ImGuiKey.KeypadSubtract;
+                case Keys.KeyPadAdd: return ImGuiKey.KeypadAdd;
+                case Keys.KeyPadEnter: return ImGuiKey.KeypadEnter;
+                case Keys.KeyPadEqual: return ImGuiKey.KeypadEqual;
+                case Keys.LeftShift: return ImGuiKey.LeftShift;
+                case Keys.LeftControl: return ImGuiKey.LeftCtrl;
+                case Keys.LeftAlt: return ImGuiKey.LeftAlt;
+                case Keys.LeftSuper: return ImGuiKey.LeftSuper;
+                case Keys.RightShift: return ImGuiKey.RightShift;
+                case Keys.RightControl: return ImGuiKey.RightCtrl;
+                case Keys.RightAlt: return ImGuiKey.RightAlt;
+                case Keys.RightSuper: return ImGuiKey.RightSuper;
+                case Keys.Menu: return ImGuiKey.Menu;
                 default: return ImGuiKey.None;
             }
         }

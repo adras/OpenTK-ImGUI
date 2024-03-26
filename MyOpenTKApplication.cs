@@ -3,6 +3,9 @@ using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Graphics;
 using Imgui_Test;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.Common;
+using OpenTK.Mathematics;
 
 public class MyOpenTKApplication : GameWindow
 {
@@ -11,43 +14,40 @@ public class MyOpenTKApplication : GameWindow
     ImGuiController imguiController;
     OpenTkImguiInputConnector inputConnector;
 
-    public MyOpenTKApplication() : base(1600, 900, GraphicsMode.Default, $"My OpenTKApplication {Version}", GameWindowFlags.FixedWindow, DisplayDevice.Default, 3, 3, GraphicsContextFlags.Default)
+    public MyOpenTKApplication() : base (new GameWindowSettings(), new NativeWindowSettings())
     {
     }
 
- 
 
-    protected override void OnLoad(EventArgs e)
+    protected override void OnLoad()
     {
-        base.OnLoad(e);
+        base.OnLoad();
 
         Title += ": OpenGL Version: " + GL.GetString(StringName.Version);
 
-        imguiController = new ImGuiController(ClientSize.Width, ClientSize.Height);
+        imguiController = new ImGuiController(ClientSize.X, ClientSize.Y);
         inputConnector = new OpenTkImguiInputConnector(this, imguiController.imGuiIO);
         inputConnector.Connect();
     }
 
-
-    protected override void OnResize(EventArgs e)
+    protected override void OnResize(ResizeEventArgs e)
     {
         base.OnResize(e);
 
         // Update the opengl viewport
-        GL.Viewport(0, 0, ClientSize.Width, ClientSize.Height);
+        GL.Viewport(0, 0, ClientSize.X, ClientSize.Y);
 
         // Tell ImGui of the new size
-        imguiController.WindowResized(ClientSize.Width, ClientSize.Height);
+        imguiController.WindowResized(ClientSize.X, ClientSize.Y);
     }
 
-
-    protected override void OnRenderFrame(OpenTK.FrameEventArgs e)
+    protected override void OnRenderFrame(FrameEventArgs args)
     {
-        base.OnRenderFrame(e);
+        base.OnRenderFrame(args);
 
-        imguiController.Update(this, (float)e.Time);
+        imguiController.Update(this, (float)args.Time);
 
-        GL.ClearColor(new Color(0, 32, 48, 255));
+        GL.ClearColor(new Color4(0, 32, 48, 255));
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
         // Enable Docking
