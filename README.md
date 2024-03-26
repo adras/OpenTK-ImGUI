@@ -37,5 +37,9 @@ Rendering works like this. ImGui is asked for the current data to render, the da
 ### UserInput
 For reasons beyond my knowledge, ImGUI only works when it's user input state is also updated. Therefore keyboard and mouse events need to passed to ImGui.
 
-This is done by using the OpenTkImGuiInputConnector. When Connect is called OpenTk user events are registered. These events pass the given action to ImGui. 
+This is done by using the OpenTkImGuiInputConnector. When Connect is called OpenTk user events are registered. These events pass the given action to ImGui.
+
+## Branches
+ImGui contains a really awesome Demo which is used in the ```ImGuiDemoForm``` branch
+main is supposed to reflect more closely the example on: https://github.com/ocornut/imgui
 
