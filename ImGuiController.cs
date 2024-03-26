@@ -76,12 +76,12 @@ public class ImGuiController : IDisposable
         _windowHeight = height;
     }
 
-    public void DestroyDeviceObjects()
+    private void DestroyDeviceObjects()
     {
         Dispose();
     }
 
-    public void CreateDeviceResources()
+    private void CreateDeviceResources()
     {
         _vertexBufferSize = 10000;
         _indexBufferSize = 2000;
@@ -148,8 +148,7 @@ public class ImGuiController : IDisposable
 
         GL.BindVertexArray(prevVAO);
         GL.BindBuffer(BufferTarget.ArrayBuffer, prevArrayBuffer);
-
-        CheckGLError("End of ImGui setup");
+        GLHelpers.CheckGLError("End of ImGui setup");
     }
 
     /// <summary>
@@ -327,10 +326,10 @@ public class ImGuiController : IDisposable
         GL.UseProgram(_shader);
         GL.UniformMatrix4(_shaderProjectionMatrixLocation, false, ref mvp);
         GL.Uniform1(_shaderFontTextureLocation, 0);
-        CheckGLError("Projection");
+        GLHelpers.CheckGLError("Projection");
 
         GL.BindVertexArray(_vertexArray);
-        CheckGLError("VAO");
+        GLHelpers.CheckGLError("VAO");
 
         draw_data.ScaleClipRects(imGuiIO.DisplayFramebufferScale);
 
@@ -347,10 +346,10 @@ public class ImGuiController : IDisposable
             ImDrawListPtr cmd_list = draw_data.CmdLists[n];
 
             GL.BufferSubData(BufferTarget.ArrayBuffer, IntPtr.Zero, cmd_list.VtxBuffer.Size * Unsafe.SizeOf<ImDrawVert>(), cmd_list.VtxBuffer.Data);
-            CheckGLError($"Data Vert {n}");
+            GLHelpers.CheckGLError($"Data Vert {n}");
 
             GL.BufferSubData(BufferTarget.ElementArrayBuffer, IntPtr.Zero, cmd_list.IdxBuffer.Size * sizeof(ushort), cmd_list.IdxBuffer.Data);
-            CheckGLError($"Data Idx {n}");
+            GLHelpers.CheckGLError($"Data Idx {n}");
 
             for (int cmd_i = 0; cmd_i < cmd_list.CmdBuffer.Size; cmd_i++)
             {
@@ -363,12 +362,12 @@ public class ImGuiController : IDisposable
                 {
                     GL.ActiveTexture(TextureUnit.Texture0);
                     GL.BindTexture(TextureTarget.Texture2D, (int)pcmd.TextureId);
-                    CheckGLError("Texture");
+                    GLHelpers.CheckGLError("Texture");
 
                     // We do _windowHeight - (int)clip.W instead of (int)clip.Y because gl has flipped Y when it comes to these coordinates
                     var clip = pcmd.ClipRect;
                     GL.Scissor((int)clip.X, _windowHeight - (int)clip.W, (int)(clip.Z - clip.X), (int)(clip.W - clip.Y));
-                    CheckGLError("Scissor");
+                    GLHelpers.CheckGLError("Scissor");
 
                     if ((imGuiIO.BackendFlags & ImGuiBackendFlags.RendererHasVtxOffset) != 0)
                     {
@@ -378,7 +377,8 @@ public class ImGuiController : IDisposable
                     {
                         GL.DrawElements(BeginMode.Triangles, (int)pcmd.ElemCount, DrawElementsType.UnsignedShort, (int)pcmd.IdxOffset * sizeof(ushort));
                     }
-                    CheckGLError("Draw");
+
+                    GLHelpers.CheckGLError("Draw");
                 }
             }
         }
@@ -490,15 +490,5 @@ public class ImGuiController : IDisposable
         }
 
         return shader;
-    }
-
-    public static void CheckGLError(string title)
-    {
-        OpenTK.Graphics.OpenGL4.ErrorCode error;
-        int i = 1;
-        while ((error = GL.GetError()) != OpenTK.Graphics.OpenGL4.ErrorCode.NoError)
-        {
-            Debug.Print($"{title} ({i++}): {error}");
-        }
     }
 }

@@ -1,22 +1,18 @@
 ﻿using OpenTK;
 using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using OpenTK.Windowing.Common;
 using OpenTK.Graphics;
 using Imgui_Test;
-//using OpenTK.Windowing.Desktop;
 
 public class MyOpenTKApplication : GameWindow
 {
-    public static readonly string Version = "0.0.2";
+    public static readonly string Version = "1.0.2";
 
     ImGuiController imguiController;
     OpenTkImguiInputConnector inputConnector;
 
-    public MyOpenTKApplication() : base(1600, 900, GraphicsMode.Default, $"Chroma Flare {Version}", GameWindowFlags.FixedWindow, DisplayDevice.Default, 3, 3, GraphicsContextFlags.Default)
+    public MyOpenTKApplication() : base(1600, 900, GraphicsMode.Default, $"My OpenTKApplication {Version}", GameWindowFlags.FixedWindow, DisplayDevice.Default, 3, 3, GraphicsContextFlags.Default)
     {
-        
     }
 
  
@@ -28,7 +24,8 @@ public class MyOpenTKApplication : GameWindow
         Title += ": OpenGL Version: " + GL.GetString(StringName.Version);
 
         imguiController = new ImGuiController(ClientSize.Width, ClientSize.Height);
-        inputConnector = new OpenTkImguiInputConnector(this, imguiController);
+        inputConnector = new OpenTkImguiInputConnector(this, imguiController.imGuiIO);
+        inputConnector.Connect();
     }
 
 
@@ -60,25 +57,8 @@ public class MyOpenTKApplication : GameWindow
 
         imguiController.Render();
 
-        ImGuiController.CheckGLError("End of frame");
+        GLHelpers.CheckGLError("End of frame");
 
         SwapBuffers();
     }
-
-    
-    // Ehm, seems to not exist, maybe in the missing namespace?
-    //protected override void OnTextInput(TextInputEventArgs e)
-    //{
-    //    base.OnTextInput(e);
-
-
-    //    _controller.PressChar((char)e.Unicode);
-    //}
-
-    //protected override void OnMouseWheel(MouseWheelEventArgs e)
-    //{
-    //    base.OnMouseWheel(e);
-
-    //    _controller.MouseScroll(e.Offset);
-    //}
 }

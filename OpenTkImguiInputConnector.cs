@@ -14,12 +14,21 @@ namespace Imgui_Test
     /// </summary>
     internal class OpenTkImguiInputConnector
     {
+        GameWindow gameWindow;
+        
         ImGuiIOPtr imGuiIO;
 
-        public OpenTkImguiInputConnector(GameWindow gameWindow, ImGuiController imguiController)
+        public OpenTkImguiInputConnector(GameWindow gameWindow, ImGuiIOPtr imGuiIO)
         {
-            imGuiIO = imguiController.imGuiIO;
+            this.gameWindow = gameWindow;
+            this.imGuiIO = imGuiIO;
+        }
 
+        /// <summary>
+        /// Connects the given OpenTk gameWindow with the given ImGui IO
+        /// </summary>
+        public void Connect()
+        {
             gameWindow.MouseDown += GameWindow_MouseDown;
             gameWindow.MouseUp += GameWindow_MouseUp;
             gameWindow.MouseMove += GameWindow_MouseMove;
@@ -28,6 +37,21 @@ namespace Imgui_Test
             gameWindow.KeyPress += GameWindow_KeyPress;
             gameWindow.KeyDown += GameWindow_KeyDown;
             gameWindow.KeyUp += GameWindow_KeyUp;
+        }
+
+        /// <summary>
+        /// Unregisters the events setup by <see cref="Connect"/>
+        /// </summary>
+        public void Disconnect()
+        {
+            gameWindow.MouseDown -= GameWindow_MouseDown;
+            gameWindow.MouseUp -= GameWindow_MouseUp;
+            gameWindow.MouseMove -= GameWindow_MouseMove;
+            gameWindow.MouseWheel -= GameWindow_MouseWheel;
+
+            gameWindow.KeyPress -= GameWindow_KeyPress;
+            gameWindow.KeyDown -= GameWindow_KeyDown;
+            gameWindow.KeyUp -= GameWindow_KeyUp;
         }
 
         private void GameWindow_KeyDown(object? sender, OpenTK.Input.KeyboardKeyEventArgs e)
