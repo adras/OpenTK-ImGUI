@@ -18,21 +18,26 @@ class ImGuiController
         renderer.Update(delta);
     }
 
+    string inputText = "";
+    float sliderValue = 0;
+
     public void Render(float delta)
     {
         GL.ClearColor(new Color4(0, 32, 48, 255));
         GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
-        // Enable Docking
-        ImGui.DockSpaceOverViewport();
+        ImGui.Text($"Hello, world {123}");
+        if (ImGui.Button("Save"))
+            throw new NotImplementedException("hahahahaha");
+        
+        ImGui.InputText("string", ref inputText, 100);
+        ImGui.SliderFloat("float", ref sliderValue, 0.0f, 1.0f);
 
-        ImGui.ShowDemoWindow();
 
         renderer.Render();
 
         GLHelpers.CheckGLError("End of frame");
         gameWindow.SwapBuffers();
-
     }
 
     internal void WindowResized(int newWidth, int newHeight)
