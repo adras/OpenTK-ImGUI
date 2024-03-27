@@ -42,3 +42,4 @@ These are the two demo examples on ImGui's official github page along with the d
 For reasons beyond my knowledge, ImGUI only works when it's user input state is also updated. Therefore keyboard and mouse events need to passed to ImGui.
 
 This is done by using the OpenTkImGuiInputConnector. When Connect is called OpenTk user events are registered. These events pass the given action to ImGui.
+See [https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-why-are-multiple-widgets-reacting-when-i-interact-with-a-single-one-q-how-can-i-have-multiple-widgets-with-the-same-label-or-with-an-empty-label](https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-how-can-i-tell-whether-to-dispatch-mousekeyboard-to-dear-imgui-or-my-application)https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-how-can-i-tell-whether-to-dispatch-mousekeyboard-to-dear-imgui-or-my-application
