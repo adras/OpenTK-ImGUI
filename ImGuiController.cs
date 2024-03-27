@@ -61,8 +61,7 @@ class ImGuiController
         for (int n = 0; n < 100; n++)
             samples[n] = MathF.Sin(n * 0.2f + (float)ImGui.GetTime() * 1.5f);
 
-        // hmm, not sure how to pass that ref float
-        //ImGui.PlotLines("Samples", samples, #samples);
+        ImGui.PlotLines("Samples", ref samples[0], 100);
 
         // Display contents in a scrolling region
         ImGui.TextColored(new System.Numerics.Vector4(1, 1, 0, 1), "Important Stuff");
