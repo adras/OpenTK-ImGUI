@@ -25,21 +25,20 @@ This project was setup in a certain way:
 ### OpenTK GameWindow
 The main entry point, our App.Run class is OpenTk's GameWindow which is implemented in MyOpenTKApplication.cs.
 
-From the perspective of the GameWindow only an Imgui.Draw call is required. Therefore the main drawing logic for Imgui is implemented in ImGuiController.cs
+From the perspective of the GameWindow only an Imgui.Draw call is required. Therefore the main drawing logic for Imgui is implemented in ImGuiRenderer.cs
 
-### ImGuiController
+### ImGuiRenderer
 This class is heavily based on the Sample from @NogginBops.
 
-The ImGuiController is responsible for drawing ImGui using OpenGL.
+The ImGuiRenderer is responsible for drawing ImGui using OpenGL.
 
 Rendering works like this. ImGui is asked for the current data to render, the data is rendered with OpenGL.
+
+### ImGuiController
+This is basically supposed to be a single control. Right now it contains all demo's I found.
+These are the two demo examples on ImGui's official github page along with the demo panel
 
 ### UserInput
 For reasons beyond my knowledge, ImGUI only works when it's user input state is also updated. Therefore keyboard and mouse events need to passed to ImGui.
 
 This is done by using the OpenTkImGuiInputConnector. When Connect is called OpenTk user events are registered. These events pass the given action to ImGui.
-
-## Branches
-ImGui contains a really awesome Demo which is used in the ```ImGuiDemoForm``` branch
-main is supposed to reflect more closely the example on: https://github.com/ocornut/imgui
-

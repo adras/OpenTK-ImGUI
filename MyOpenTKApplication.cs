@@ -5,6 +5,7 @@ using OpenTK.Graphics;
 using Imgui_Test;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.Common;
+using OpenTK.Mathematics;
 
 public class MyOpenTKApplication : GameWindow
 {
@@ -50,6 +51,8 @@ public class MyOpenTKApplication : GameWindow
     protected override void OnRenderFrame(FrameEventArgs args)
     {
         base.OnRenderFrame(args);
+        GL.ClearColor(new Color4(0, 32, 48, 255));
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
         controller.Render((float)args.Time);
     }

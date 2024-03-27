@@ -19,6 +19,7 @@ class ImGuiController
         renderer.Update(delta);
     }
 
+    // UI-State variables also called model
     string inputText = "";
     float sliderValue = 0;
 
@@ -27,9 +28,6 @@ class ImGuiController
 
     public void Render(float delta)
     {
-        GL.ClearColor(new Color4(0, 32, 48, 255));
-        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
-
         ImGui.Begin("FirstExample");
         ImGui.Text($"Hello, world {123}");
         if (ImGui.Button("Save"))
@@ -70,6 +68,12 @@ class ImGuiController
             ImGui.Text($"{n}: Some text");
         ImGui.EndChild();
         ImGui.End();
+
+        // Let's also display the big demo
+        // Enable Docking
+        ImGui.DockSpaceOverViewport();
+
+        ImGui.ShowDemoWindow();
 
         renderer.Render();
 
